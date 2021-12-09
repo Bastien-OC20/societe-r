@@ -15,6 +15,11 @@
         "symfony/yaml": "5.4.*"
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^6.7",
+        "friendsofphp/php-cs-fixer": "^3.3",
+        "phpstan/phpstan": "^1.2",
+        "symfony/maker-bundle": "^1.36",
+        "symfony/web-profiler-bundle": "5.4.*"
     },
     "config": {
         "optimize-autoloader": true,
@@ -55,8 +60,9 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
-            "require": "5.4.*"
+            "allow-contrib": true,
+            "require": "5.4.*",
+            "docker": true
         }
     }
 }
