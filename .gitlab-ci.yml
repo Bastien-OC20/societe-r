@@ -8,14 +8,20 @@ stages:
   - CodingStandards
   - UniTests
 
+cs-fixer:
+  stage: CodingStandards
+  script:
+    - make cs-dry
+  allow_failure: false
+
 phpstan:
   stage: CodingStandards
   script:
     - make stan
-  allow_failure: true
+  allow_failure: false
 
 phpunit:
   stage: UniTests
   script:
-    - make test
+    - make test-all
   allow_failure: false
