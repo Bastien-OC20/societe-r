@@ -1,0 +1,21 @@
+image: mkldevops/php:8.0
+
+cache:
+  paths:
+    - vendor
+
+stages:
+  - CodingStandards
+  - UniTests
+
+phpstan:
+  stage: CodingStandards
+  script:
+    - make stan
+  allow_failure: true
+
+phpunit:
+  stage: UniTests
+  script:
+    - make test
+  allow_failure: false
