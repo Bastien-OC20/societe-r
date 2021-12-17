@@ -85,8 +85,41 @@ public function __construct(private PasswordHasherFactoryInterface $hasherFactor
 
 4 step : realise migrations
 
+# modify entity user and creation adminFixtures
+
+1 step : modification of User entity : 
+modify $email; $password; $enable; $roles 
+respect of abstract method ex: username(); eraseCredentials(); getSalt();
+
+2. step generate getters and setters
+
+3. step execution of migrations
 
 #creation of authentification form
+
+1 step : symfony console make:auth
+
+2 step : in AppAuthenticator.php : modify the class : add and delete the exception
+
+first modification : public function authenticate(Request $request): Passport
+{
+$email= $request->request->get('email', '');
+
+second modification : return new RedirectResponse($this->urlGenerator->generate('admin'));
+
+3 step : modify security.yaml
+access_control:
+- { path: ^/admin, roles: ROLE_ADMIN }
+- { path: ^/profile, roles: ROLE_USER }
+
+4 step in SecurityController add:
+
+         if ($this->getUser()) {
+             return $this->redirectToRoute('homepage');
+         }
+
+5 modifictaion of template security\login replace uuid by email in our case
+
 
 # Up project
 

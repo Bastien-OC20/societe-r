@@ -5,6 +5,8 @@
         <a href="base.html.twig" class="logo d-flex align-items-center">
             <img src="{{ asset('assets/img/logo.png') }}" alt="">
             <span class="d-none d-lg-block">Societe R</span>
+
+
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- Le logo -->
@@ -31,11 +33,16 @@
                     <img src="{{ asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
                     <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
                 </a><!-- End Profile Image Icon -->
+                <h1>Mon compte</h1>
 
+               {% if is_granted('ROLE_ADMIN') %}
+                <span>{{ app.user.email}}</span>
+                <small><a href="/admin">Accédez au back-office.</a></small><br/>
+              {% endif %}
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>Kevin Anderson</h6>
-                        <span>Web Designer</span>
+
+
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -44,6 +51,7 @@
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="">
                             <i class="bi bi-person"></i>
+
                             <span>My Profile</span>
                         </a>
                     </li>
