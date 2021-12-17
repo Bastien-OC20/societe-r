@@ -1,3 +1,6 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+ApiDoc :
+  path: /api/doc
+  controller: App\Controller\DefaultController::api/doc
