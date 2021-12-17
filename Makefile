@@ -1,6 +1,15 @@
 SYMFONY_BIN		= symfony
 CONSOLE		 	= $(SYMFONY_BIN) console
 
+migration:
+	$(CONSOLE) make:migration
+	$(CONSOLE) doctrine:migrations:migrate
+
+init:
+	$(CONSOLE) doctrine:schema:drop --force
+	$(CONSOLE) doctrine:migrations:migrate
+	$(CONSOLE) doctrine:fixtures:load --purge-with-truncate -n
+
 ## —— Tests ✅ —————————————————————————————————————————————————————————————————
 test-fixtures: phpunit.xml* ## Launch main functionnal and unit tests
 	APP_ENV=test $(CONSOLE) doctrine:schema:drop --force -q
