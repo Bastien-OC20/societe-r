@@ -8,19 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ManagerRepository::class)]
 class Manager
 {
+
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
-
     #[ORM\OneToOne(targetEntity: Employee::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, referencedColumnName: 'profile_id')]
     private $employee;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getEmployee(): ?Employee
     {

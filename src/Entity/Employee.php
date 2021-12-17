@@ -11,9 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Employee
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\GeneratedValue(strategy:"NONE")]
+    #[ORM\OneToOne(targetEntity: Profile::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $profile;
 
     #[ORM\Column(type: 'date')]
     private $employeeAt;
@@ -21,23 +22,7 @@ class Employee
     #[ORM\Column(type: 'integer')]
     private $salary;
 
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'teammates')]
-    #[ORM\JoinColumn(name: 'employee_id')]
-    private $work;
 
-    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'work')]
-    private $teammates;
-
-    public function __construct()
-    {
-        $this->work = new ArrayCollection();
-        $this->teammates = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getEmployeeAt(): ?\DateTimeInterface
     {
@@ -63,54 +48,17 @@ class Employee
         return $this;
     }
 
-    /**
-     * @return Collection|self[]
-     */
-    public function getWork(): Collection
+    public function getProfile(): ?Profile
     {
-        return $this->work;
+        return $this->profile;
     }
 
-    public function addWork(self $work): self
+    public function setProfile(Profile $profile): self
     {
-        if (!$this->work->contains($work)) {
-            $this->work[] = $work;
-        }
+        $this->profile = $profile;
 
         return $this;
     }
 
-    public function removeWork(self $work): self
-    {
-        $this->work->removeElement($work);
 
-        return $this;
-    }
-
-    /**
-     * @return Collection|self[]
-     */
-    public function getTeammates(): Collection
-    {
-        return $this->teammates;
-    }
-
-    public function addTeammate(self $teammate): self
-    {
-        if (!$this->teammates->contains($teammate)) {
-            $this->teammates[] = $teammate;
-            $teammate->addWork($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTeammate(self $teammate): self
-    {
-        if ($this->teammates->removeElement($teammate)) {
-            $teammate->removeWork($this);
-        }
-
-        return $this;
-    }
 }

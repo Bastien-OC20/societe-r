@@ -5,11 +5,26 @@
 
         <li class="nav-item">
             <a class="nav-link " href="">
-                <i class="bi bi-grid"></i>
+                <i class="bi bi-house-fill"></i>
                 <span>Tableau de bord</span>
             </a>
-        </li><!-- End Dashboard Nav -->
 
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="{{ path('app.swagger_ui') }}">
+                <i class="bi bi-file-text-fill"></i>
+                <span>API Doc</span>
+            </a>
+
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="{{ path('admin') }}">
+                <i class="bi bi-person-circle"></i>
+                <span>Admin</span>
+            </a>
+
+        </li>
+        <!-- End Dashboard Nav -->
     </ul>
 
 </aside><!-- End Sidebar-->

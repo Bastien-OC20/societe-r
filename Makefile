@@ -6,7 +6,13 @@ migration:
 	$(CONSOLE) doctrine:migrations:migrate
 
 init:
+	git pull origin main
+	$(SYMFONY_BIN) composer install
+
+doctrine: export APP_ENV=dev
+doctrine:
 	$(CONSOLE) doctrine:schema:drop --force
+	$(CONSOLE) doctrine:schema:create
 	$(CONSOLE) doctrine:migrations:migrate
 	$(CONSOLE) doctrine:fixtures:load --purge-with-truncate -n
 
