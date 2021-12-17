@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 class WorkStation
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy:"IDENTITY")]
+    #[ORM\GeneratedValue(strategy:"NONE")]
     #[ORM\Column(type: 'string', length: 50)]
     private string $code;
 
@@ -20,7 +20,7 @@ class WorkStation
     private ?string $description = null;
 
     #[ORM\Column(type: 'boolean')]
-    private boolean $enable;
+    private bool $enable ;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'workStations')]
     #[ORM\JoinColumn(nullable: false)]

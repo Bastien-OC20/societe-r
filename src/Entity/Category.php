@@ -21,6 +21,10 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: WorkStation::class)]
     private Collection $workStations;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
     public function __construct()
     {
         $this->workStations = new ArrayCollection();

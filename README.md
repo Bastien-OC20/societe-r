@@ -28,6 +28,12 @@ if problem : delete base : symfony console d:d:d --force
 3 step : update ddb structure : symfony console doctrine:migrations:migrate
 
 4 step : generation of the entity : symfony console make:entity WorkStation
+we need to customize primary key :
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy:"NONE")]
+    #[ORM\Column(type: 'string', length: 50)]
+    private string $code;
+
 
 5 step : symfony console make:migration
 
@@ -35,7 +41,21 @@ if problem : delete base : symfony console d:d:d --force
 
 7 step : git add . and git commit -m ""
 
-8 step : creation of crud
+8 step : creation of crud : symfony console make:admin:crud and mapping to the entity WorkStation
+
+9 step : symfony console make:admin:crud 
+for Category entity
+
+10 step : in Admin\DashboardController.php :
+    yield MenuItem::linkToCrud('Workstation', 'fas fa-comments', WorkStation::class);
+    yield MenuItem::linkToCrud('Category', 'fas fa-comments', Category::class);
+
+11 step : Update Category entity and add :
+    public function __toString()
+    {
+    return $this->getName();
+    }
+
 # Up project
 
 # API Routes
