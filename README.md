@@ -21,8 +21,10 @@ pour arrêter le conteneur: docker compose down
 # creation entity  WorkStation with relation ManyToOne
 
 1 step: git pull origin main
-
+ 
 2 step : creation of database : symfony console d:d:c
+
+    symfony composer install
 if problem : delete base : symfony console d:d:d --force
 
 3 step : update ddb structure : symfony console doctrine:migrations:migrate
@@ -55,6 +57,36 @@ for Category entity
     {
     return $this->getName();
     }
+
+# creation fixtures
+
+1 step :  symfony composer req orm-fixtures --dev
+
+2 step : in DataFixtures
+public function __construct(private PasswordHasherFactoryInterface $hasherFactory)
+{
+
+    }
+    public function load(ObjectManager $manager): void
+    {
+        $admin1 = new User();
+        $admin1->setRoles(['ROLE_ADMIN']);
+        $admin1->setEmail('admin@gmail.com');
+        $admin1->setEnable('true');
+        $admin1->setPassword($this->hasherFactory->getPasswordHasher(User::class)->hash('admin', null));
+
+        $manager->persist($admin1);
+
+        $manager->flush();
+    }
+
+3 step : launch fixtures :
+    symfony console doctrine:fixtures:load
+
+4 step : realise migrations
+
+
+#creation of authentification form
 
 # Up project
 
