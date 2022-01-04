@@ -21,8 +21,10 @@ pour arrêter le conteneur: docker compose down
 # creation entity  WorkStation with relation ManyToOne
 
 1 step: git pull origin main
-
+ 
 2 step : creation of database : symfony console d:d:c
+
+    symfony composer install
 if problem : delete base : symfony console d:d:d --force
 
 3 step : update ddb structure : symfony console doctrine:migrations:migrate
@@ -55,6 +57,69 @@ for Category entity
     {
     return $this->getName();
     }
+
+# creation fixtures
+
+1 step :  symfony composer req orm-fixtures --dev
+
+2 step : in DataFixtures
+public function __construct(private PasswordHasherFactoryInterface $hasherFactory)
+{
+
+    }
+    public function load(ObjectManager $manager): void
+    {
+        $admin1 = new User();
+        $admin1->setRoles(['ROLE_ADMIN']);
+        $admin1->setEmail('admin@gmail.com');
+        $admin1->setEnable('true');
+        $admin1->setPassword($this->hasherFactory->getPasswordHasher(User::class)->hash('admin', null));
+
+        $manager->persist($admin1);
+
+        $manager->flush();
+    }
+
+3 step : launch fixtures :
+    symfony console doctrine:fixtures:load
+
+4 step : realise migrations
+
+# modify entity user and creation adminFixtures
+
+1 step : modification of User entity : 
+modify $email; $password; $enable; $roles 
+respect of abstract method ex: username(); eraseCredentials(); getSalt();
+
+2. step generate getters and setters
+
+3. step execution of migrations
+
+#creation of authentification form
+
+1 step : symfony console make:auth
+
+2 step : in AppAuthenticator.php : modify the class : add and delete the exception
+
+first modification : public function authenticate(Request $request): Passport
+{
+$email= $request->request->get('email', '');
+
+second modification : return new RedirectResponse($this->urlGenerator->generate('admin'));
+
+3 step : modify security.yaml
+access_control:
+- { path: ^/admin, roles: ROLE_ADMIN }
+- { path: ^/profile, roles: ROLE_USER }
+
+4 step in SecurityController add:
+
+         if ($this->getUser()) {
+             return $this->redirectToRoute('homepage');
+         }
+
+5 modifictaion of template security\login replace uuid by email in our case
+
 
 # Up project
 
